@@ -1,4 +1,3 @@
-// filepath: /Users/rohit.gupta3/weather_project/weather-app/src/components/WeatherApp.js
 import React, { useState } from "react";
 import axios from "axios";
 import './WeatherApp.css';
@@ -24,10 +23,12 @@ const WeatherApp = () => {
                     aqi: 'no'
                 },
             });
-            setWeatherData(response.data.current);
+            console.log(response.data); // Log the response data
+            setWeatherData(response.data); // Store the entire response
             setForecastData(response.data.forecast.forecastday); // Set forecast data
             setError(null);
         } catch (err) {
+            console.error(err); // Log the error
             setError('Error getting weather data');
             setWeatherData(null);
             setForecastData(null);
@@ -82,16 +83,16 @@ const WeatherApp = () => {
                     <h2>{weatherData.location?.name ? `${weatherData.location.name}, ${weatherData.location.country}` : ''}</h2>
                     <div className="temperature">
                         {units === 'metric' ? 
-                            `${weatherData.temp_c}°C` : 
-                            `${weatherData.temp_f}°F`}
+                            `${weatherData.current.temp_c}°C` : 
+                            `${weatherData.current.temp_f}°F`}
                     </div>
                     <div className="condition">
-                        <img src={weatherData.condition?.icon} alt={weatherData.condition?.text} />
-                        <p>{weatherData.condition?.text}</p>
+                        <img src={weatherData.current.condition?.icon} alt={weatherData.current.condition?.text} />
+                        <p>{weatherData.current.condition?.text}</p>
                     </div>
                     <div className="details">
-                        <p>Humidity: {weatherData.humidity}%</p>
-                        <p>Wind: {weatherData.wind_kph} km/h</p>
+                        <p>Humidity: {weatherData.current.humidity}%</p>
+                        <p>Wind: {weatherData.current.wind_kph} km/h</p>
                     </div>
                 </div>
             )}
